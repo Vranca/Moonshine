@@ -13,6 +13,8 @@ public:
 	bool OnCreate()
 	{
 		player.SetCoordinates(26.5, 14.5);
+		SDL_ShowCursor(0);
+		SDL_SetRelativeMouseMode(SDL_TRUE);
 		return true;
 	}
 
@@ -26,29 +28,45 @@ public:
 				//Select surfaces based on key press
 				switch (e.key.keysym.sym)
 				{
+				case SDLK_w:
 				case SDLK_UP:
 					player.moveForward(delta);
 					if (map.At(player.GetCoordinates().x, player.GetCoordinates().y) == '#')
 						player.moveBack(delta);
 					break;
 
+				case SDLK_s:
 				case SDLK_DOWN:
 					player.moveBack(delta);
 					if (map.At(player.GetCoordinates().x, player.GetCoordinates().y) == '#')
 						player.moveForward(delta);
 					break;
 
+				case SDLK_a:
 				case SDLK_LEFT:
 					player.rotateLeft(delta);
 					break;
 
+				case SDLK_d:
 				case SDLK_RIGHT:
 					player.rotateRight(delta);
+					break;
+				case SDLK_ESCAPE:
+					Stop();
 					break;
 
 				default:
 					break;
 				}
+			}
+			if (e.type == SDL_MOUSEMOTION)
+			{
+				static int xpos = GetWidth() / 2; // = 400 to center the cursor in the window
+				//static int ypos = GetHeight() / 2; // = 300 to center the cursor in the window
+				xpos += e.motion.xrel;
+				//ypos += e.motion.yrel;
+
+				player.rotate(delta, (e.motion.xrel));
 			}
 		}
 
@@ -57,7 +75,7 @@ public:
 
 	bool OnRender()
 	{
-		DrawRaycast(player, map);
+		RenderWall();
 		DrawMap();
 		PresentRender();
 
@@ -73,6 +91,29 @@ private:
 	{
 		SetRenderColor(15, 25, 60, 0);
 		ClearRenderer();
+	}
+
+	void RenderWall()
+	{
+		for (int x = 0; x < GetWidth(); x++)
+		{
+			double fRayAngle = (player.GetDirectionAngle() - player.GetFOV() / 2.0) + ((double)x / (double)GetWidth()) * player.GetFOV();
+
+			double fDistanceToWall = Raycast(player.GetCoordinates(), fRayAngle, map, '#') * cos(player.GetDirectionAngle() - fRayAngle);
+
+			RenderRaycast(x, fDistanceToWall);
+		}
+	}
+
+	void RenderRaycast(const int& x, const double& fDistanceToWall)
+	{
+		int wallShading = 160 - fDistanceToWall * 10;
+		wallShading = wallShading < 30 ? 30 : wallShading;
+		int top = (double)(GetHeight() / 2.0) - (double)GetHeight() / ((double)fDistanceToWall);
+		int bottom = GetHeight() - top;
+
+		SetRenderColor(wallShading, wallShading, wallShading, 0);
+		DrawLine(x, top, x, bottom);
 	}
 
 	void RenderFloor(int nFloor)
@@ -115,8 +156,9 @@ private:
 int main(int argc, char* argv[])
 {
 	Game demo;
-	demo.Construct("Demo", 800, 600);
-	demo.Start();
+
+	if(demo.Construct("Demo", 1000, 600))
+		demo.Start();
 
 	return 0;
 }

@@ -22,12 +22,14 @@ namespace moon
 
 		bool Construct(const char* title, int w, int h, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = SDL_WINDOW_SHOWN);
 		void Start();
+		inline void Stop() { m_Run = false; }
 		void Quit();
 
-		void DrawRaycast(const moon::Camera& cam, const moon::Map& map);
-	private:
-		double CalculateDistance(const moon::Camera& cam, Vector2D<double> initDistance, Vector2D<double> deltaDistance, const Vector2D<double>& rayAngle, const moon::Map& map, const char target);
-		void RenderRaycast(const int& x, const double& fDistanceToWall);
+		//
+		// Raycast from origin point with given angle.
+		// Returns distance from origin to target.
+		//
+		double Raycast(const Vector2D<double>& origin, const double& fRayAngle, const moon::Map& map, const char target);
 
 	private:
 		std::thread m_mainThread;
@@ -35,6 +37,7 @@ namespace moon
 		std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> m_Renderer;
 		int m_Width;
 		int m_Height;
+		bool m_Run;
 
 	public:
 		inline int GetWidth()	{	return m_Width;		}

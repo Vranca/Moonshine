@@ -11,6 +11,7 @@ namespace moon
 
 		double rotateLeft(const double& delta);
 		double rotateRight(const double& delta);
+		double rotate(const double& delta, const double& rotation);
 		Vector2D<double> moveForward(const double& delta);
 		Vector2D<double> moveBack(const double& delta);
 

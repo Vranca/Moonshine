@@ -24,14 +24,20 @@ double moon::Camera::rotateRight(const double& delta)
 	return m_directionAngle;
 }
 
-Vector2D<double> moon::Camera::moveForward(const double& delta)
+double moon::Camera::rotate(const double& delta, const double& rotation)
+{
+	m_directionAngle += rotation * delta;
+	return m_directionAngle;
+}
+
+moon::Vector2D<double> moon::Camera::moveForward(const double& delta)
 {
 	m_coordinates.x += cos(m_directionAngle) * m_movementSpeed * delta;
 	m_coordinates.y += sin(m_directionAngle) * m_movementSpeed * delta;
 	return m_coordinates;
 }
 
-Vector2D<double> moon::Camera::moveBack(const double& delta)
+moon::Vector2D<double> moon::Camera::moveBack(const double& delta)
 {
 	m_coordinates.x -= cos(m_directionAngle) * m_movementSpeed * delta;
 	m_coordinates.y -= sin(m_directionAngle) * m_movementSpeed * delta;
