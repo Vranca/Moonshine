@@ -113,6 +113,7 @@ private:
 		int bottom = GetHeight() - top;
 
 		SetRenderColor(wallShading, wallShading, wallShading, 0);
+
 		DrawLine(x, top, x, bottom);
 	}
 

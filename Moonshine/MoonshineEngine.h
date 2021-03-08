@@ -2,8 +2,9 @@
 #include <thread>
 #include <SDL.h>
 #include "Camera.h"
+#include"Renderer.h"
 #include "Map.h"
-#include <functional>
+
 
 namespace moon 
 {
@@ -35,6 +36,7 @@ namespace moon
 		std::thread m_mainThread;
 		std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> m_Window;
 		std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> m_Renderer;
+		
 		int m_Width;
 		int m_Height;
 		bool m_Run;
@@ -43,6 +45,7 @@ namespace moon
 		inline int GetWidth()	{	return m_Width;		}
 		inline int GetHeight()	{	return m_Height;	}
 
+		inline void SetTitle(const char* title) { SDL_SetWindowTitle(m_Window.get(), title); }
 		inline void PresentRender()														{	return SDL_RenderPresent(m_Renderer.get());								}
 		inline int SetRenderColor(const int& r, const int& g, const int& b, const int&a){	return SDL_SetRenderDrawColor(m_Renderer.get(), r, g, b, a);			}
 		inline int DrawPoint(const int& x, const int& y)								{	return SDL_RenderDrawPoint(m_Renderer.get(), x, y);						}

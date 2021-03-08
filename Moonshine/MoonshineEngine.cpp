@@ -1,5 +1,6 @@
 #include "MoonshineEngine.h"
 #include <chrono>
+#include <string>
 #include "Camera.h"
 #include "Map.h"
 
@@ -48,6 +49,9 @@ void moon::MoonshineEngine::Start()
 	auto t2 = t1;
 	double delta = 0.0;
 	m_Run = true;
+
+	double dFpsTimer = 0.0;
+	int nFpsCounter = 0;
 
 	OnCreate();
 
