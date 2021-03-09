@@ -30,8 +30,9 @@ bool moon::MoonshineEngine::Construct(const char * title, int w, int h, int x, i
 		}
 		else
 		{
-			m_Renderer = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>(SDL_CreateRenderer(m_Window.get(), -1, SDL_RENDERER_ACCELERATED), [](SDL_Renderer* renderer) { SDL_DestroyRenderer(renderer); });
-			if (!m_Renderer)
+			//m_Renderer = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>(SDL_CreateRenderer(m_Window.get(), -1, SDL_RENDERER_ACCELERATED), [](SDL_Renderer* renderer) { SDL_DestroyRenderer(renderer); });
+			m_RendererNew = std::make_unique<Renderer>(m_Window.get(), w, h);
+			if (!m_RendererNew)
 			{
 				return false;
 			}
@@ -54,16 +55,26 @@ void moon::MoonshineEngine::Start()
 	int nFpsCounter = 0;
 
 	OnCreate();
-
+	//volatile int fps = 0;
+	//double elap = 0;
 	while (m_Run)
 	{
 		t2 = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsedTime = t2 - t1;
 		t1 = t2;
 		delta = elapsedTime.count();
+		//elap += delta;
+		//fps++;
 
 		OnUpdate(delta);
 		OnRender();
+		PresentRender();
+
+		//if (elap >= 1)
+		//{
+		//	elap = 0;
+		//	fps = 0;
+		//}
 	}
 
 	Quit();

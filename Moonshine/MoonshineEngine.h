@@ -36,6 +36,7 @@ namespace moon
 		std::thread m_mainThread;
 		std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> m_Window;
 		std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> m_Renderer;
+		std::unique_ptr<Renderer> m_RendererNew;
 		
 		int m_Width;
 		int m_Height;
@@ -46,33 +47,13 @@ namespace moon
 		inline int GetHeight()	{	return m_Height;	}
 
 		inline void SetTitle(const char* title) { SDL_SetWindowTitle(m_Window.get(), title); }
-		inline void PresentRender()														{	return SDL_RenderPresent(m_Renderer.get());								}
-		inline int SetRenderColor(const int& r, const int& g, const int& b, const int&a){	return SDL_SetRenderDrawColor(m_Renderer.get(), r, g, b, a);			}
-		inline int DrawPoint(const int& x, const int& y)								{	return SDL_RenderDrawPoint(m_Renderer.get(), x, y);						}
-		inline int DrawLine(const int& x1, const int& y1, const int& x2, const int& y2) {	return SDL_RenderDrawLine(m_Renderer.get(), x1, y1, x2, y2);			}
-		inline int DrawRect(const Rect& r)												{	return SDL_RenderDrawRect(m_Renderer.get(), &r);						}
-		inline int FillRect(const Rect& r)												{	return SDL_RenderFillRect(m_Renderer.get(), &r);						}
-		inline int ClearRenderer()														{	return SDL_RenderClear(m_Renderer.get());								}
-
-		int FillVerticalGradientRect(const Rect& r, const Color& c1, const Color& c2)
-		{
-			double nStepRInit = (double)(c1.r - c2.r) / (double)r.h;
-			double nStepGInit = (double)(c1.g - c2.g) / (double)r.h;
-			double nStepBInit = (double)(c1.b - c2.b) / (double)r.h;
-			double nStepR = 0.0;
-			double nStepG = 0.0;
-			double nStepB = 0.0;
-
-			for (int y = r.y; y < r.y + r.h; y++)
-			{
-				SDL_SetRenderDrawColor(m_Renderer.get(), (int)(nStepR), (int)(nStepG), (int)(nStepB), c1.a);
-				SDL_RenderDrawLine(m_Renderer.get(), r.x, y, r.w, y);
-				nStepR += nStepRInit;
-				nStepG += nStepGInit;
-				nStepB += nStepBInit;
-			}
-
-			return 0;
-		}
+		inline void PresentRender()																				{	m_RendererNew->Present();									}
+		inline void DrawPoint(const int& x, const int& y, const uint32_t& argb)									{	m_RendererNew->DrawPoint(x, y, argb);						}
+		inline void DrawLine(const int& x1, const int& y1, const int& x2, const int& y2, const uint32_t& argb)	{	m_RendererNew->DrawLine(x1, y1, x2, y2, argb);				}
+		inline void DrawRect(const Rect& r, const uint32_t& argb)												{	m_RendererNew->DrawRect(r, argb);							}
+		inline void FillRect(const Rect& r, const uint32_t& argb)												{	m_RendererNew->FillRect(r, argb);							}
+		inline void ClearRenderer()																				{	m_RendererNew->Clear();										}
+		inline void ClearRenderer(const uint32_t& argb)															{	m_RendererNew->Clear(argb);									}
+		inline void FillVerticalGradientRect(const Rect& r, const uint32_t& argb0, const uint32_t& argb1)		{	m_RendererNew->FillVerticalGradientRect(r, argb0, argb1);	}
 	};
 }

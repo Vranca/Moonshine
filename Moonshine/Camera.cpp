@@ -4,7 +4,7 @@
 
 
 moon::Camera::Camera()
-	: m_coordinates(0.0, 0.0), m_directionAngle(30.0), m_FOV(3.14159 / 3), m_movementSpeed(10.0), m_rotationSpeed(2.0)
+	: m_coordinates(0.0, 0.0), m_directionAngle(30.0), m_FOV(3.14159 / 3), m_movementSpeed(40.0), m_rotationSpeed(3.0)
 {
 }
 

@@ -8,13 +8,14 @@
 
 namespace moon
 {
+	using Rect = SDL_Rect;
+	using Color = SDL_Color;
+
 	class Renderer
 	{
 	public:
 		Renderer(SDL_Window* window, const int& width, const int& height);
 		~Renderer();
-
-		int DrawVerticalLine(const int & x1, const int & x2, const int & y, const int & r, const int & g, const int & b);
 
 		void Present();
 
@@ -26,33 +27,18 @@ namespace moon
 		uint32_t* m_TextureBuffer;
 
 	public:
-		inline void PresentRender() { return SDL_RenderPresent(m_Renderer); }
-		inline int SetRenderColor(const int& r, const int& g, const int& b, const int&a) { return SDL_SetRenderDrawColor(m_Renderer, r, g, b, a); }
-		inline int DrawPoint(const int& x, const int& y) { return SDL_RenderDrawPoint(m_Renderer, x, y); }
-		inline int DrawLine(const int& x1, const int& y1, const int& x2, const int& y2) { return SDL_RenderDrawLine(m_Renderer, x1, y1, x2, y2); }
-		inline int DrawRect(const SDL_Rect& r) { return SDL_RenderDrawRect(m_Renderer, &r); }
-		inline int FillRect(const SDL_Rect& r) { return SDL_RenderFillRect(m_Renderer, &r); }
-		inline int ClearRenderer() { return SDL_RenderClear(m_Renderer); }
+		void DrawPoint(const int& x, const int& y, const uint32_t& argb);
+		void DrawLine(const int& x1, const int& y1, const int& x2, const int& y2, const uint32_t& argb);
+		void DrawRect(const Rect& r, const uint32_t& argb);
+		void FillRect(const Rect& r, const uint32_t& argb);
+		void FillVerticalGradientRect(const Rect& r, const uint32_t& argb0, const uint32_t& argb1);
+		void Clear();
+		void Clear(const uint32_t& argb);
 
-		int FillVerticalGradientRect(const SDL_Rect& r, const SDL_Color& c1, const SDL_Color& c2)
-		{
-			double nStepRInit = (double)(c1.r - c2.r) / (double)r.h;
-			double nStepGInit = (double)(c1.g - c2.g) / (double)r.h;
-			double nStepBInit = (double)(c1.b - c2.b) / (double)r.h;
-			double nStepR = 0.0;
-			double nStepG = 0.0;
-			double nStepB = 0.0;
-
-			for (int y = r.y; y < r.y + r.h; y++)
-			{
-				SDL_SetRenderDrawColor(m_Renderer, (int)(nStepR), (int)(nStepG), (int)(nStepB), c1.a);
-				SDL_RenderDrawLine(m_Renderer, r.x, y, r.w, y);
-				nStepR += nStepRInit;
-				nStepG += nStepGInit;
-				nStepB += nStepBInit;
-			}
-
-			return 0;
-		}
+	private:
+		void DrawLineLow(const int& x0, const int& y0, const int& x1, const int& y1, const uint32_t& argb);
+		void DrawLineHigh(const int& x0, const int& y0, const int& x1, const int& y1, const uint32_t& argb);
+		void DrawVerticalLine(const int & y0, const int & y1, const int & x, const uint32_t & argb);
+		void DrawHorizontalLine(const int & x0, const int & x1, const int & y, const uint32_t & argb);
 	};
 }

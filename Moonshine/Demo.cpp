@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include "Moonshine.h"
+#include <stdint.h>
 
 class Game : public moon::MoonshineEngine
 {
@@ -75,13 +76,12 @@ public:
 
 	bool OnRender()
 	{
-		RenderWall();
-		DrawMap();
-		PresentRender();
-
 		int nFloor = GetHeight() - ((double)(GetHeight() / 2.0));
 		RenderCeiling();
 		RenderFloor(nFloor);
+
+		RenderWall();
+		DrawMap();
 
 		return true;
 	}
@@ -89,8 +89,7 @@ public:
 private:
 	void RenderCeiling()
 	{
-		SetRenderColor(15, 25, 60, 0);
-		ClearRenderer();
+		ClearRenderer(0xFF0F193C);
 	}
 
 	void RenderWall()
@@ -112,17 +111,19 @@ private:
 		int top = (double)(GetHeight() / 2.0) - (double)GetHeight() / ((double)fDistanceToWall);
 		int bottom = GetHeight() - top;
 
-		SetRenderColor(wallShading, wallShading, wallShading, 0);
+		top = top < 0 ? 0 : top;
+		bottom = bottom >= GetHeight() ? GetHeight()-1 : bottom;
 
-		DrawLine(x, top, x, bottom);
+		uint32_t wallColor = 0xFF000000 | (wallShading << 16) | (wallShading << 8) | wallShading;
+		DrawLine(x, top, x, bottom, wallColor);
 	}
 
 	void RenderFloor(int nFloor)
 	{
 		moon::Rect floor = {0, nFloor, GetWidth(), GetHeight() - nFloor };
-		moon::Color c1 = {64, 155, 80, 255};
-		moon::Color c2 = {10, 20, 12, 255};
-		FillVerticalGradientRect(floor, c1, c2);
+		uint32_t argb0 = (0xFF000000 | 64 << 16 | 155 << 8 | 155);
+		uint32_t argb1 = (0xFF000000 | 10 << 16 | 20 << 8 | 12);
+		FillVerticalGradientRect(floor, argb1, argb0);
 	}
 
 	void DrawMap()
@@ -135,20 +136,25 @@ private:
 			{
 				if (map.At(x, y) == '#')
 				{
-					SetRenderColor(0, 0, 0, 0);
+					DrawPoint(x * nMiniMapSize, y * nMiniMapSize, 0);
+					DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize, 0);
+					DrawPoint(x * nMiniMapSize, y * nMiniMapSize + 1, 0);
+					DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize + 1, 0);
 				}
 				else if ((int)player.GetCoordinates().x == x && (int)player.GetCoordinates().y == y)
 				{
-					SetRenderColor(255, 0, 0, 0);
+					DrawPoint(x * nMiniMapSize, y * nMiniMapSize, 0xFFFF0000);
+					DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize, 0xFFFF0000);
+					DrawPoint(x * nMiniMapSize, y * nMiniMapSize + 1, 0xFFFF0000);
+					DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize + 1, 0xFFFF0000);
 				}
 				else
 				{
-					SetRenderColor(255, 255, 255, 0);
+					DrawPoint(x * nMiniMapSize, y * nMiniMapSize, 0xFFFFFFFF);
+					DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize, 0xFFFFFFFF);
+					DrawPoint(x * nMiniMapSize, y * nMiniMapSize + 1, 0xFFFFFFFF);
+					DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize + 1, 0xFFFFFFFF);
 				}
-				DrawPoint(x * nMiniMapSize, y * nMiniMapSize);
-				DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize);
-				DrawPoint(x * nMiniMapSize, y * nMiniMapSize + 1);
-				DrawPoint(x * nMiniMapSize + 1, y * nMiniMapSize + 1);
 			}
 		}
 	}
