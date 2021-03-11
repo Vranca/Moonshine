@@ -18,7 +18,7 @@ namespace moon
 		SDL_DestroyRenderer(m_Renderer);
 		SDL_DestroyTexture(m_Texture);
 
-		delete m_TextureBuffer;
+		delete[] m_TextureBuffer;
 	}
 
 	void Renderer::Present()
@@ -75,24 +75,50 @@ namespace moon
 
 	void Renderer::DrawRect(const Rect & r, const uint32_t & argb)
 	{
+		uint32_t* px_1 = m_TextureBuffer + r.x + r.y * m_Width;
+		uint32_t* px_2 = m_TextureBuffer + r.x + (r.y + r.h) * m_Width;
 		for (int x = r.x; x < r.x + r.w; x++)
 		{
-			DrawPoint(x, r.y, argb);
-			DrawPoint(x, r.y + r.h, argb);
+			(*px_1) = argb;
+			(*px_2) = argb;
+			px_1++;
+			px_2++;
 		}
+
+		px_1 = m_TextureBuffer + r.x + (r.y + 1) * m_Width;
+		px_2 = m_TextureBuffer + (r.x + r.w - 1) + (r.y + 1) * m_Width;
+		uint32_t offset = m_Width - r.w + 1;
 		for (int y = r.y; y < r.y + r.h; y++)
 		{
-			DrawPoint(r.x, y, argb);
-			DrawPoint(r.x + r.w, y, argb);
+			(*px_1) = argb;
+			(*px_2) = argb;
+			px_1 += m_Width;
+			px_2 += m_Width;
 		}
 	}
 
+	/*
+	 * Fill a rectangle with a color in ARGB format
+	 * Iterating with a pointer so adrress is calculated once
+	 *
+	 * r    - rectangle to be filled
+	 * argb - color in ARGB8888 format
+	 */
 	void Renderer::FillRect(const Rect & r, const uint32_t & argb)
 	{
-		for (int y = r.y; y < r.y + r.h; y++)
-			for (int x = r.x; x < r.x + r.w; x++)
-				DrawPoint(x, y, argb);
+		uint32_t* pixel = m_TextureBuffer + r.x + r.y * m_Width;
+		uint32_t offset = m_Width - r.w + 1;
+		for (int y = r.y; y < r.y + r.h - 1; y++)
+		{
+			for (int x = r.x; x < r.x + r.w - 1; x++)
+			{
+				(*pixel) = argb;
+				pixel++;
+			}
+			pixel += offset;
+		}
 	}
+
 
 	void Renderer::FillVerticalGradientRect(const Rect & r, const uint32_t & argb0, const uint32_t & argb1)
 	{
@@ -105,7 +131,7 @@ namespace moon
 
 		for (int y = r.y; y < r.y + r.h; y++)
 		{
-			DrawHorizontalLine(r.x, r.x + r.w, y, (argb0 + ((uint32_t)nStepR << 16) + ((uint32_t)nStepG << 8) + ((uint32_t)nStepB)));
+			DrawHorizontalLine(r.x, r.x + r.w - 1, y, (argb0 + ((uint32_t)nStepR << 16) + ((uint32_t)nStepG << 8) + ((uint32_t)nStepB)));
 			nStepR += nStepRInit;
 			nStepG += nStepGInit;
 			nStepB += nStepBInit;
@@ -196,16 +222,20 @@ namespace moon
 	}
 	void Renderer::DrawVerticalLine(const int & y0, const int & y1, const int & x, const uint32_t & argb)
 	{
+		uint32_t* pixel = m_TextureBuffer + x + y0 * m_Width;
 		for (int y = y0; y <= y1; y++)
 		{
-			DrawPoint(x, y, argb);
+			(*pixel) = argb;
+			pixel += m_Width;
 		}
 	}
 	void Renderer::DrawHorizontalLine(const int & x0, const int & x1, const int & y, const uint32_t & argb)
 	{
+		uint32_t* pixel = m_TextureBuffer + x0 + y * m_Width;
 		for (int x = x0; x <= x1; x++)
 		{
-			DrawPoint(x, y, argb);
+			(*pixel) = argb;
+			pixel++;
 		}
 	}
 }

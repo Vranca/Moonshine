@@ -83,6 +83,9 @@ public:
 		RenderWall();
 		DrawMap();
 
+		// Render tests
+		// DrawRect({ 200, 200, 200, 200 }, 0);
+
 		return true;
 	}
 

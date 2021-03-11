@@ -55,26 +55,35 @@ void moon::MoonshineEngine::Start()
 	int nFpsCounter = 0;
 
 	OnCreate();
-	//volatile int fps = 0;
-	//double elap = 0;
+
+	/*
+	volatile int fps = 0;
+	double elap = 0;
+	*/
+
 	while (m_Run)
 	{
 		t2 = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsedTime = t2 - t1;
 		t1 = t2;
 		delta = elapsedTime.count();
-		//elap += delta;
-		//fps++;
+
+		/*
+		elap += delta;
+		fps++;
+		*/
 
 		OnUpdate(delta);
 		OnRender();
 		PresentRender();
 
-		//if (elap >= 1)
-		//{
-		//	elap = 0;
-		//	fps = 0;
-		//}
+		/*
+		if (elap >= 1)
+		{
+			elap = 0;
+			fps = 0;
+		}
+		*/
 	}
 
 	Quit();
@@ -82,9 +91,9 @@ void moon::MoonshineEngine::Start()
 
 void moon::MoonshineEngine::Quit()
 {
-	SDL_DestroyRenderer(m_Renderer.get());
+	//SDL_DestroyRenderer(m_Renderer.get());
 	m_Renderer.reset();
-	SDL_DestroyWindow(m_Window.get());
+	//SDL_DestroyWindow(m_Window.get());
 	m_Window.reset();
 	SDL_Quit();
 }
