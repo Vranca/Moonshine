@@ -98,7 +98,7 @@ void moon::MoonshineEngine::Quit()
 	SDL_Quit();
 }
 
-double moon::MoonshineEngine::Raycast(const Vector2D<double>& origin, const double& fRayAngle, const Map& map, const char target)
+double moon::MoonshineEngine::Raycast(const Vector2D<double>& origin, double fRayAngle, const Map& map, char target)
 {
 	Vector2D<double> rayAngle(cos(fRayAngle), sin(fRayAngle));
 	Vector2D<double> deltaDistance(std::abs(1.0 / rayAngle.x), std::abs(1.0 / rayAngle.y));

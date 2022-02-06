@@ -19,7 +19,7 @@ public:
 		return true;
 	}
 
-	bool OnUpdate(const double& delta)
+	bool OnUpdate(double delta)
 	{
 		while (SDL_PollEvent(&e) != 0)
 		{
@@ -107,7 +107,7 @@ private:
 		}
 	}
 
-	void RenderRaycast(const int& x, const double& fDistanceToWall)
+	void RenderRaycast(int x, double fDistanceToWall)
 	{
 		int wallShading = 160 - fDistanceToWall * 10;
 		wallShading = wallShading < 30 ? 30 : wallShading;

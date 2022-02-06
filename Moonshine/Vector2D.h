@@ -52,28 +52,28 @@ namespace moon
 		// Scalar operations
 		//
 		//***********************************************
-		Vector2D<T>& operator+= (const T& rhs)
+		Vector2D<T>& operator+= (T rhs)
 		{
 			this->x += rhs.x;
 			this->y += rhs.y;
 			return *this;
 		}
 
-		Vector2D<T>& operator-= (const T& rhs)
+		Vector2D<T>& operator-= (T rhs)
 		{
 			this->x -= rhs.x;
 			this->y -= rhs.y;
 			return *this;
 		}
 
-		Vector2D<T>& operator*= (const T& rhs)
+		Vector2D<T>& operator*= (T rhs)
 		{
 			this->x *= rhs.x;
 			this->y *= rhs.y;
 			return *this;
 		}
 
-		Vector2D<T>& operator/= (const T& rhs)
+		Vector2D<T>& operator/= (T rhs)
 		{
 			this->x /= rhs.x;
 			this->y /= rhs.y;
@@ -108,25 +108,25 @@ namespace moon
 	//
 	//***********************************************
 	template <typename T>
-	inline Vector2D<T> operator+ (const Vector2D<T>& v, const T& s)
+	inline Vector2D<T> operator+ (const Vector2D<T>& v, T s)
 	{
 		return Vector2D<T>((v.x + s), (v.y + s));
 	}
 
 	template <typename T>
-	inline Vector2D<T> operator- (const Vector2D<T>& v, const T& s)
+	inline Vector2D<T> operator- (const Vector2D<T>& v, T s)
 	{
 		return Vector2D<T>((v.x - s), (v.y - s));
 	}
 
 	template <typename T>
-	inline Vector2D<T> operator* (const Vector2D<T>& v, const T& s)
+	inline Vector2D<T> operator* (const Vector2D<T>& v, T s)
 	{
 		return Vector2D<T>((v.x * s), (v.y * s));
 	}
 
 	template <typename T>
-	inline Vector2D<T> operator/ (const Vector2D<T>& v, const T& s)
+	inline Vector2D<T> operator/ (const Vector2D<T>& v, T s)
 	{
 		return Vector2D<T>((v.x / s), (v.y / s));
 	}

@@ -4,7 +4,7 @@
 
 namespace moon
 {
-	Renderer::Renderer(SDL_Window* window, const int& width, const int& height)
+	Renderer::Renderer(SDL_Window* window, int width, int height)
 		: m_Width(width), m_Height(height)
 	{
 		m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -28,12 +28,12 @@ namespace moon
 		SDL_RenderPresent(m_Renderer);
 	}
 
-	void Renderer::DrawPoint(const int & x, const int & y, const uint32_t & argb)
+	void Renderer::DrawPoint(int x, int y, uint32_t argb)
 	{
 		m_TextureBuffer[x + y * m_Width] = argb;
 	}
 
-	void Renderer::DrawLine(const int & x0, const int & y0, const int & x1, const int & y1, const uint32_t& argb)
+	void Renderer::DrawLine(int x0, int y0, int x1, int y1, uint32_t argb)
 	{
 		if (y0 == y1)
 		{
@@ -73,7 +73,7 @@ namespace moon
 		}
 	}
 
-	void Renderer::DrawRect(const Rect & r, const uint32_t & argb)
+	void Renderer::DrawRect(const Rect & r, uint32_t argb)
 	{
 		uint32_t* px_1 = m_TextureBuffer + r.x + r.y * m_Width;
 		uint32_t* px_2 = m_TextureBuffer + r.x + (r.y + r.h) * m_Width;
@@ -104,7 +104,7 @@ namespace moon
 	 * r    - rectangle to be filled
 	 * argb - color in ARGB8888 format
 	 */
-	void Renderer::FillRect(const Rect & r, const uint32_t & argb)
+	void Renderer::FillRect(const Rect & r, uint32_t argb)
 	{
 		uint32_t* pixel = m_TextureBuffer + r.x + r.y * m_Width;
 		uint32_t offset = m_Width - r.w + 1;
@@ -120,7 +120,7 @@ namespace moon
 	}
 
 
-	void Renderer::FillVerticalGradientRect(const Rect & r, const uint32_t & argb0, const uint32_t & argb1)
+	void Renderer::FillVerticalGradientRect(const Rect & r, uint32_t argb0, uint32_t argb1)
 	{
 		double nStepRInit = (double)((argb1 >> 16 & 0x000000FF) - (argb0 >> 16 & 0x000000FF)) / (double)r.h;
 		double nStepGInit = (double)((argb1 >> 8 & 0x000000FF) - (argb0 >> 8 & 0x000000FF)) / (double)r.h;
@@ -149,7 +149,7 @@ namespace moon
 			}
 	}
 
-	void Renderer::Clear(const uint32_t & argb)
+	void Renderer::Clear(uint32_t argb)
 	{
 		uint32_t* pixel = m_TextureBuffer;
 		for (int y = 0; y < m_Height; y++)
@@ -160,7 +160,7 @@ namespace moon
 			}
 	}
 
-	void Renderer::DrawLineLow(const int & x0, const int & y0, const int & x1, const int & y1, const uint32_t& argb)
+	void Renderer::DrawLineLow(int x0, int y0, int x1, int y1, uint32_t argb)
 	{
 		int dx = x1 - x0;
 		int dy = y1 - y0;
@@ -190,7 +190,7 @@ namespace moon
 			}
 		}
 	}
-	void Renderer::DrawLineHigh(const int & x0, const int & y0, const int & x1, const int & y1, const uint32_t& argb)
+	void Renderer::DrawLineHigh(int x0, int y0, int x1, int y1, uint32_t argb)
 	{
 		int dx = x1 - x0;
 		int dy = y1 - y0;
@@ -220,7 +220,7 @@ namespace moon
 			}
 		}
 	}
-	void Renderer::DrawVerticalLine(const int & y0, const int & y1, const int & x, const uint32_t & argb)
+	void Renderer::DrawVerticalLine(int y0, int y1, int x, uint32_t argb)
 	{
 		uint32_t* pixel = m_TextureBuffer + x + y0 * m_Width;
 		for (int y = y0; y <= y1; y++)
@@ -229,7 +229,7 @@ namespace moon
 			pixel += m_Width;
 		}
 	}
-	void Renderer::DrawHorizontalLine(const int & x0, const int & x1, const int & y, const uint32_t & argb)
+	void Renderer::DrawHorizontalLine(int x0, int x1, int y, uint32_t argb)
 	{
 		uint32_t* pixel = m_TextureBuffer + x0 + y * m_Width;
 		for (int x = x0; x <= x1; x++)

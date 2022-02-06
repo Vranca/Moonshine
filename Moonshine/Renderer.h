@@ -14,7 +14,7 @@ namespace moon
 	class Renderer
 	{
 	public:
-		Renderer(SDL_Window* window, const int& width, const int& height);
+		Renderer(SDL_Window* window, int width, int height);
 		~Renderer();
 
 		void Present();
@@ -27,18 +27,18 @@ namespace moon
 		uint32_t* m_TextureBuffer;
 
 	public:
-		void DrawPoint(const int& x, const int& y, const uint32_t& argb);
-		void DrawLine(const int& x1, const int& y1, const int& x2, const int& y2, const uint32_t& argb);
-		void DrawRect(const Rect& r, const uint32_t& argb);
-		void FillRect(const Rect& r, const uint32_t& argb);
-		void FillVerticalGradientRect(const Rect& r, const uint32_t& argb0, const uint32_t& argb1);
+		void DrawPoint(int x, int y, uint32_t argb);
+		void DrawLine(int x1, int y1, int x2, int y2, uint32_t argb);
+		void DrawRect(const Rect& r, uint32_t argb);
+		void FillRect(const Rect& r, uint32_t argb);
+		void FillVerticalGradientRect(const Rect& r, uint32_t argb0, uint32_t argb1);
 		void Clear();
-		void Clear(const uint32_t& argb);
+		void Clear(uint32_t argb);
 
 	private:
-		void DrawLineLow(const int& x0, const int& y0, const int& x1, const int& y1, const uint32_t& argb);
-		void DrawLineHigh(const int& x0, const int& y0, const int& x1, const int& y1, const uint32_t& argb);
-		void DrawVerticalLine(const int & y0, const int & y1, const int & x, const uint32_t & argb);
-		void DrawHorizontalLine(const int & x0, const int & x1, const int & y, const uint32_t & argb);
+		void DrawLineLow(int x0, int y0, int x1, int y1, uint32_t argb);
+		void DrawLineHigh(int x0, int y0, int x1, int y1, uint32_t argb);
+		void DrawVerticalLine(int y0, int y1, int x, uint32_t argb);
+		void DrawHorizontalLine(int x0, int x1, int y, uint32_t argb);
 	};
 }

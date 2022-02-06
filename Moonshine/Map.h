@@ -17,9 +17,9 @@ namespace moon
 		std::wstring m_Map;
 
 	public:
-		inline const int&		GetWidth()			const	{	return m_Width;					}
-		inline const int&		GetHeight()			const	{	return m_Height;				}
-		inline const wchar_t&	At(int x, int y)	const	{	return m_Map[y * m_Width + x];	}
+		inline int		GetWidth()			const	{	return m_Width;					}
+		inline int		GetHeight()			const	{	return m_Height;				}
+		inline wchar_t	At(int x, int y)	const	{	return m_Map[y * m_Width + x];	}
 	};
 }
 

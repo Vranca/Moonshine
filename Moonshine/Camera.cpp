@@ -12,32 +12,32 @@ moon::Camera::~Camera()
 {
 }
 
-double moon::Camera::rotateLeft(const double& delta)
+double moon::Camera::rotateLeft(double delta)
 {
 	m_directionAngle -= m_rotationSpeed * delta;
 	return m_directionAngle;
 }
 
-double moon::Camera::rotateRight(const double& delta)
+double moon::Camera::rotateRight(double delta)
 {
 	m_directionAngle += m_rotationSpeed * delta;
 	return m_directionAngle;
 }
 
-double moon::Camera::rotate(const double& delta, const double& rotation)
+double moon::Camera::rotate(double delta, double rotation)
 {
 	m_directionAngle += rotation * delta;
 	return m_directionAngle;
 }
 
-moon::Vector2D<double> moon::Camera::moveForward(const double& delta)
+moon::Vector2D<double> moon::Camera::moveForward(double delta)
 {
 	m_coordinates.x += cos(m_directionAngle) * m_movementSpeed * delta;
 	m_coordinates.y += sin(m_directionAngle) * m_movementSpeed * delta;
 	return m_coordinates;
 }
 
-moon::Vector2D<double> moon::Camera::moveBack(const double& delta)
+moon::Vector2D<double> moon::Camera::moveBack(double delta)
 {
 	m_coordinates.x -= cos(m_directionAngle) * m_movementSpeed * delta;
 	m_coordinates.y -= sin(m_directionAngle) * m_movementSpeed * delta;

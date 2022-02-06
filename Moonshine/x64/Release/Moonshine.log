@@ -1,0 +1,32 @@
+﻿  Camera.cpp
+  Demo.cpp
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(35,67): warning C4244: 'argument': conversion from 'const T' to 'int', possible loss of data
+          with
+          [
+              T=double
+          ]
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(35,40): warning C4244: 'argument': conversion from 'const T' to 'int', possible loss of data
+          with
+          [
+              T=double
+          ]
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(42,67): warning C4244: 'argument': conversion from 'const T' to 'int', possible loss of data
+          with
+          [
+              T=double
+          ]
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(42,40): warning C4244: 'argument': conversion from 'const T' to 'int', possible loss of data
+          with
+          [
+              T=double
+          ]
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(79,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(112,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Marko\source\repos\Moonshine\Moonshine\Demo.cpp(114,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  MoonshineEngine.cpp
+  Generating code
+  0 of 240 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Moonshine.vcxproj -> C:\Users\Marko\source\repos\Moonshine\x64\Release\Moonshine.exe
